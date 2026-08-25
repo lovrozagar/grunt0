@@ -22,6 +22,20 @@ afterEach(() => {
   }
 });
 
+function captureStdout(fn: () => Promise<unknown>): Promise<string> {
+  const chunks: string[] = [];
+  const orig = process.stdout.write;
+  process.stdout.write = ((chunk: string | Uint8Array) => {
+    chunks.push(typeof chunk === "string" ? chunk : Buffer.from(chunk).toString());
+    return true;
+  }) as typeof process.stdout.write;
+  return fn()
+    .finally(() => {
+      process.stdout.write = orig;
+    })
+    .then(() => chunks.join(""));
+}
+
 test("help lists five commands", () => {
   const u = usage();
   for (const c of ["init", "sync", "check", "doctor", "bench"]) expect(u).toContain(c);
@@ -35,6 +49,19 @@ test("init refuses overwrite without --force", async () => {
     /--force/,
   );
   await runInit({ cwd: dir, force: true, fixUserConfig: false });
+});
+
+test("init generates; check is green without a separate sync", async () => {
+  const dir = tmp();
+  await runInit({ cwd: dir, force: false, fixUserConfig: false });
+  expect(existsSync(join(dir, "AGENTS.md"))).toBe(true);
+  expect(existsSync(join(dir, ".claude", "agents", "grunt.md"))).toBe(true);
+  expect(existsSync(join(dir, ".grok", "agents", "grunt.md"))).toBe(true);
+  const out = await captureStdout(async () => {
+    const clean = await runCheck({ cwd: dir, json: false });
+    expect(clean.ok).toBe(true);
+  });
+  expect(out).toBe("check ok\n");
 });
 
 test("init does not write real home; --fix-user-config uses GROK_HOME", async () => {
@@ -59,15 +86,23 @@ test("sync + check green; hand-edit AGENTS.md fails check", async () => {
   );
   await runSync({ cwd: dir });
   expect(readFileSync(join(dir, ".claude", "settings.json"), "utf8")).toMatch(/rtk/);
-  const clean = await runCheck({ cwd: dir, json: false });
-  expect(clean.ok).toBe(true);
+  const cleanOut = await captureStdout(async () => {
+    const clean = await runCheck({ cwd: dir, json: false });
+    expect(clean.ok).toBe(true);
+  });
+  expect(cleanOut).toBe("check ok\n");
   writeFileSync(
     join(dir, "AGENTS.md"),
     readFileSync(join(dir, "AGENTS.md"), "utf8") + "\n# dirty\n",
   );
-  const dirty = await runCheck({ cwd: dir, json: true });
-  expect(dirty.ok).toBe(false);
-  expect(dirty.diff.stale).toContain("AGENTS.md");
+  const dirtyOut = await captureStdout(async () => {
+    const dirty = await runCheck({ cwd: dir, json: true });
+    expect(dirty.ok).toBe(false);
+    expect(dirty.diff.stale).toContain("AGENTS.md");
+  });
+  expect(JSON.parse(dirtyOut).ok).toBe(false);
+  expect(JSON.parse(dirtyOut).stale).toContain("AGENTS.md");
+  expect(dirtyOut).not.toMatch(/check ok/);
 });
 
 test("bin --help after build", () => {

@@ -34,9 +34,9 @@ Discriminator: `rtk gain`. Never `cargo install rtk` (wrong crate: reachingforth
 ## Commands
 
 ```bash
-grunt0 init              # copy kit (.rulesync, rulesync.jsonc) + Grok rtk hook
-grunt0 sync              # rulesync generate() then overlay (pins, roles, hooks)
-grunt0 check             # expected = overlay(generate-to-temp) vs disk
+grunt0 init              # copy kit + generate + overlay (ready to use)
+grunt0 sync              # after you edit .rulesync: generate + overlay
+grunt0 check             # vs disk; prints "check ok" or missing/stale/orphaned
 grunt0 doctor            # rtk, hooks, default model, inherit scan
 grunt0 doctor --json
 grunt0 doctor --strict   # non-zero if rtk crate missing

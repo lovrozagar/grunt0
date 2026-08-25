@@ -3,6 +3,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeGrokHookFiles } from "./hooks-files.ts";
 import { copyKit, kitWouldOverwrite } from "./kit.ts";
+import { runSync } from "./sync.ts";
 
 export type InitOpts = {
   cwd: string;
@@ -30,6 +31,10 @@ export async function runInit(opts: InitOpts): Promise<void> {
   }
   copyKit(opts.cwd);
   writeGrokHookFiles(opts.cwd);
+  await runSync({ cwd: opts.cwd });
+  process.stdout.write(
+    "init ok — generated agents, pins, hooks. session default still needs the user-config one-liner below.\n",
+  );
   process.stdout.write(DEFAULT_MODEL_BLURB);
   if (!opts.fixUserConfig) return;
   const home = opts.grokHome ?? process.env.GROK_HOME ?? join(homedir(), ".grok");

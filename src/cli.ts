@@ -22,9 +22,9 @@ export function usage(): string {
 Usage: grunt0 <command> [flags]
 
 Commands:
-  init     copy kit into cwd
-  sync     rulesync generate() then overlay
-  check    overlay(generate-to-temp) vs disk
+  init     copy kit, generate, overlay (ready after this)
+  sync     regenerate after you edit .rulesync
+  check    overlay(generate-to-temp) vs disk (prints check ok)
   doctor   rtk + hooks + default-model + inherit scan
   bench    fixture token/$ comparison
 

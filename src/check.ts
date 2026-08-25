@@ -30,7 +30,7 @@ function copyTree(src: string, dest: string): void {
 export async function runCheck(opts: { cwd: string; json: boolean }): Promise<CheckResult> {
   if (!existsSync(join(opts.cwd, ".rulesync"))) {
     const diff = { missing: [".rulesync"], stale: [], orphaned: [] };
-    if (opts.json) process.stdout.write(JSON.stringify(diff, null, 2) + "\n");
+    if (opts.json) process.stdout.write(JSON.stringify({ ok: false, ...diff }, null, 2) + "\n");
     else process.stderr.write("missing .rulesync (run grunt0 init)\n");
     return { ok: false, diff };
   }
@@ -44,8 +44,11 @@ export async function runCheck(opts: { cwd: string; json: boolean }): Promise<Ch
     applyOverlay({ sourceRoot: opts.cwd, outputRoot: tmp });
     const diff = diffOverlay(tmp, opts.cwd);
     const ok = diff.missing.length === 0 && diff.stale.length === 0 && diff.orphaned.length === 0;
-    if (opts.json) process.stdout.write(JSON.stringify(diff, null, 2) + "\n");
-    else if (!ok) {
+    if (opts.json) {
+      process.stdout.write(JSON.stringify({ ok, ...diff }, null, 2) + "\n");
+    } else if (ok) {
+      process.stdout.write("check ok\n");
+    } else {
       for (const p of diff.missing) process.stderr.write(`missing ${p}\n`);
       for (const p of diff.stale) process.stderr.write(`stale ${p}\n`);
       for (const p of diff.orphaned) process.stderr.write(`orphaned ${p}\n`);

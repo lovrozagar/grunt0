@@ -214,6 +214,9 @@ Tiers (public names, final): **grunt** (smallest) | **sergeant** (medium SKU or 
 ## PR5 — CLI init / sync / check
 
 - [ ] `grunt0 init` copies canonical `kit/` into cwd: `.rulesync/**`, `rulesync.jsonc`
+- [ ] `grunt0 init` then generate + overlay (same as `sync`) so the project is ready without a separate sync
+- [ ] after `grunt0 init`, `grunt0 check` exits 0
+- [ ] `grunt0 check` (human, not `--json`) prints `check ok` on success
 - [ ] `grunt0 init` copies `dist/hooks/rtk-grok.js` byte-for-byte to `.grok/hooks/rtk-grok.js`
 - [ ] `grunt0 init` writes `.grok/hooks/rtk.json` with matcher `Bash` and command pinned in PR4 live-prove (until then: `node rtk-grok.js`, JSON-relative)
 - [ ] `grunt0 init` prints default-model one-liners (grok user `~/.grok/config.toml` default = grunt pin, claude haiku, codex mini, agy/gemini flash) and Grok `[subagents.models]` explore/grunt pins

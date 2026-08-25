@@ -1,6 +1,6 @@
 {
   "name": "@lovrozagar/grunt0",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Model-fluent router + workflow manager: grunt / sergeant / general cascade for Claude, Grok, Codex, Antigravity, Gemini",
   "keywords": [
     "agents",
