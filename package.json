@@ -1,0 +1,76 @@
+{
+  "name": "@lovrozagar/grunt0",
+  "version": "0.1.0",
+  "description": "Model-fluent router + workflow manager: grunt / sergeant / general cascade for Claude, Grok, Codex, Antigravity, Gemini",
+  "keywords": [
+    "agents",
+    "claude",
+    "codex",
+    "gemini",
+    "grok",
+    "rtk",
+    "rulesync"
+  ],
+  "homepage": "https://github.com/lovrozagar/grunt0#readme",
+  "bugs": {
+    "url": "https://github.com/lovrozagar/grunt0/issues"
+  },
+  "license": "MIT",
+  "author": "lovrozagar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lovrozagar/grunt0.git"
+  },
+  "bin": {
+    "grunt0": "./bin/grunt0.js"
+  },
+  "files": [
+    "bin/",
+    "dist/",
+    "kit/",
+    "README.md",
+    "LICENSE",
+    "SPEC.md"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepare": "git config --get core.hooksPath >/dev/null || git config core.hooksPath .githooks || true",
+    "build": "tsc -p tsconfig.json && mkdir -p dist/hooks && cp src/hooks/rtk-grok.standalone.cjs dist/hooks/rtk-grok.cjs",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "bun run build && vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "prepublishOnly": "bun run build"
+  },
+  "dependencies": {
+    "rulesync": "^16.12.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@types/node": "^22.10.0",
+    "@vitest/coverage-v8": "4.1.10",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
+    "typescript": "^5.7.2",
+    "vitest": "4.1.10"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "bun@1.3.14"
+}

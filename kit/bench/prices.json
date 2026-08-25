@@ -1,0 +1,32 @@
+{
+  "spawn_tax": 400,
+  "disclaimer": "50% is a fixture gate, not a vendor-billing claim. Tokenizer is chars/4 yardstick, not billed vendor counts.",
+  "encoding": "chars/4 yardstick (not billed vendor counts)",
+  "prices": {
+    "claude": {
+      "grunt": { "in": 0.25, "out": 1.25 },
+      "sergeant": { "in": 3, "out": 15 },
+      "general": { "in": 15, "out": 75 }
+    },
+    "grok": {
+      "grunt": { "in": 0.2, "out": 0.5 },
+      "sergeant": { "in": 3, "out": 15 },
+      "general": { "in": 3, "out": 15 }
+    },
+    "codex": {
+      "grunt": { "in": 0.15, "out": 0.6 },
+      "sergeant": { "in": 2, "out": 8 },
+      "general": { "in": 2, "out": 8 }
+    },
+    "antigravity": {
+      "grunt": { "in": 0.1, "out": 0.4 },
+      "sergeant": { "in": 1.25, "out": 5 },
+      "general": { "in": 1.25, "out": 5 }
+    },
+    "gemini": {
+      "grunt": { "in": 0.1, "out": 0.4 },
+      "sergeant": { "in": 1.25, "out": 5 },
+      "general": { "in": 1.25, "out": 5 }
+    }
+  }
+}

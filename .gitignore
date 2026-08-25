@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.env
+.env.*
+.npmrc
+.DS_Store
+*.log
+.tmp/
+scratch/
+
+# local design drafts — SPEC.md is the contract
+DESIGN.md
+DESIGN.txt

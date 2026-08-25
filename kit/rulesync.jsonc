@@ -1,0 +1,18 @@
+{
+  "$schema": "https://github.com/dyoshikawa/rulesync/releases/latest/download/config-schema.json",
+  "delete": false,
+  "gitignoreTargetsOnly": true,
+  "global": false,
+  "silent": false,
+  "simulateCommands": false,
+  "simulateSkills": false,
+  "simulateSubagents": false,
+  "targets": {
+    "agentsmd": ["rules"],
+    "claudecode": ["rules", "commands", "subagents", "skills"],
+    "grokcli": ["rules", "commands", "subagents", "skills"],
+    "codexcli": ["rules", "commands", "subagents", "skills"],
+    "antigravity-cli": ["rules", "commands", "subagents", "skills"],
+  },
+  "verbose": false,
+}

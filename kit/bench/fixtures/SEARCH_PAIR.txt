@@ -1,0 +1,3 @@
+command: git status
+cwd: /home/ecomet/Development/oat
+rtk: rtk git status (real pair, not hand-shrunk)
